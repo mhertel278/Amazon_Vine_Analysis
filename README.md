@@ -30,7 +30,7 @@ And there were 39,869 reviews written that were not part of the paid program:
 
 And Of the unpaid reviews, 21,005 were given 5 stars:
 
-![unpaid_5_star](resources/unpaid_5_star)
+![unpaid_5_star](resources/unpaid_5_star.png)
 
 - As seen above, 52.34 % of paid reviews were 5 stars, and 52.69 % of unpaid reviews were 5 stars.
 
