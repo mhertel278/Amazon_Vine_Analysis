@@ -9,26 +9,27 @@ CREATE TABLE vine_table (
   verified_purchase TEXT
 );
 
---filter to reviews over 20 votes
+
+--Step 1: filter to reviews over 20 votes
 SELECT *
 INTO vine_20_votes
 FROM vine_table
 WHERE total_votes >= 20;
 
---filter 20_votes table to where helpful votes > 50%
+--Step 2: filter 20_votes table to where helpful votes > 50%
 SELECT *
 INTO vine_helpful_votes
 FROM vine_20_votes
 WHERE (helpful_votes :: FLOAT / total_votes:: FLOAT) >= 0.5;
 
---create table for paid Vine program
+--Step 3: create table for paid Vine program
 SELECT *
 INTO vine_paid
 FROM vine_helpful_votes
 WHERE vine = 'Y'
 ;
 
---create table for not paid Vine program
+--Step 4: create table for not paid Vine program
 SELECT *
 INTO vine_unpaid
 FROM vine_helpful_votes
@@ -36,21 +37,15 @@ WHERE vine = 'N'
 ;
 
 
-
--- Find total # of reviews with more than 20 votes
+--Step 5: Find total # of paid vine reviews
 SELECT COUNT(*) as total_reviews
-FROM vine_helpful_votes;
+FROM vine_paid;
 
+--Step 5: Find total # of non-paid reviews
+SELECT COUNT(*) as total_reviews
+FROM vine_unpaid;
 
--- Find total # of 5-star reviews with more than 20 votes
-SELECT star_rating
-	, COUNT(review_id) as total_5_star_reviews
-FROM vine_helpful_votes
-GROUP BY star_rating
-HAVING star_rating = 5 
-;
-
--- Find percentage of paid vine reviews that were 5-stars
+--Step 5: Find number of and percentage of paid vine reviews that were 5-stars
 SELECT *
 FROM
 (SELECT star_rating
@@ -61,7 +56,7 @@ GROUP BY star_rating) as percentages
 WHERE star_rating = 5
 ;
 
--- Find percentage of unpaid (non-vine) reviews that were 5-stars
+--Step 5: Find number of and percentage of unpaid (non-vine) reviews that were 5-stars
 SELECT *
 FROM
 (SELECT star_rating
